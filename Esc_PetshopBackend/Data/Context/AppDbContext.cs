@@ -56,8 +56,25 @@ namespace Esc_PetshopBackend.Data.Context
                     .HasColumnName("ativo")
                     .HasDefaultValue(true);
 
+                entity.HasOne(u => u.Cargo)             // Um Usuario tem um Cargo
+                    .WithMany(c => c.Usuarios)          // Um Cargo tem muitos Usuarios
+                    .HasForeignKey(u => u.CargoId)      // Chave estrangeira
+                    .OnDelete(DeleteBehavior.Restrict)  // Impede deletar cargo com usuários
+                    .IsRequired();
+
                 entity.HasIndex(e => e.Username).IsUnique();
                 entity.HasIndex(e => e.Email).IsUnique();
+                entity.HasIndex(u => u.CargoId).HasDatabaseName("idx_usuarios_cargo_id");
+
+            });
+
+            modelBuilder.Entity<Cargo>(entity =>
+            {
+                entity.ToTable("cargos");
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Descricao)
+                      .IsRequired()
+                      .HasMaxLength(50);
             });
         }
     }

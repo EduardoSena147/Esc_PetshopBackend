@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Esc_PetshopBackend.Data.Entities
 {
@@ -11,5 +12,9 @@ namespace Esc_PetshopBackend.Data.Entities
         public string Senha { get; set; }
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public bool Ativo { get; set; } = true;
+        public int CargoId { get; set; }
+
+        [ForeignKey("CargoId")]
+        public Cargo Cargo { get; set; }
     }
 }
