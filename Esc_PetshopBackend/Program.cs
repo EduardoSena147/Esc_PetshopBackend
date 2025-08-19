@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Esc_PetshopBackend.Services.Interface;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", false);
 
@@ -27,10 +28,12 @@ builder.Services.AddSingleton<DbConnectionFactory>();
 
 // Configure Repositories
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 
 // Configure Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICargoService, CargoService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

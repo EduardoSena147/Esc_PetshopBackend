@@ -10,6 +10,7 @@ namespace Esc_PetshopBackend.Data.Context
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cargo> Cargos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +57,10 @@ namespace Esc_PetshopBackend.Data.Context
                     .HasColumnName("ativo")
                     .HasDefaultValue(true);
 
+                entity.Property(e => e.CargoId)
+                    .HasColumnName("cargo_id")
+                    .IsRequired();
+
                 entity.HasOne(u => u.Cargo)             // Um Usuario tem um Cargo
                     .WithMany(c => c.Usuarios)          // Um Cargo tem muitos Usuarios
                     .HasForeignKey(u => u.CargoId)      // Chave estrangeira
@@ -70,11 +75,28 @@ namespace Esc_PetshopBackend.Data.Context
 
             modelBuilder.Entity<Cargo>(entity =>
             {
-                entity.ToTable("cargos");
-                entity.HasKey(c => c.Id);
+                entity.ToTable("cargos"); // Nome da tabela no banco
+
+                entity.HasKey(c => c.Id)
+                      .HasName("cargos_pkey"); // Nome da PK
+
+                entity.Property(c => c.Id)
+                      .HasColumnName("id") // Nome da coluna
+                      .ValueGeneratedOnAdd(); // Auto incremento
+
                 entity.Property(c => c.Descricao)
-                      .IsRequired()
-                      .HasMaxLength(50);
+                      .HasColumnName("descricao") // Nome da coluna
+                      .HasColumnType("varchar(50)") // Tipo específico
+                      .HasMaxLength(50)
+                      .IsRequired();
+
+                // Índice único na descrição (se necessário)
+                entity.HasIndex(c => c.Descricao)
+                      .IsUnique()
+                      .HasDatabaseName("uk_cargos_descricao");
+
+                // Comentários para documentação (opcional)
+                entity.HasComment("Tabela de cargos do sistema");
             });
         }
     }

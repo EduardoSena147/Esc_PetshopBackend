@@ -17,6 +17,9 @@ namespace Esc_PetshopBackend
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null)); // Atualiza apenas campos não nulos
 
             CreateMap<Usuario, UsuarioDto>();
+            CreateMap<Cargo, CargoDto>();
+            CreateMap<CargoCreateDto, Cargo>();
+            CreateMap<CargoUpdateDto, Cargo>();
         }
     }
 }
