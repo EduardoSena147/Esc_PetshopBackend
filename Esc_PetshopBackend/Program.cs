@@ -30,6 +30,7 @@ builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
 // Configure Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
