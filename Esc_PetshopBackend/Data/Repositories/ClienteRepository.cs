@@ -15,6 +15,13 @@ namespace Esc_PetshopBackend.Data.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<Cliente>> GetAllAsync()
+        {
+            return await _context.Clientes
+                .Include(c => c.Usuario)
+                .ToListAsync();
+        }
+
         public async Task<Cliente> GetByIdAsync(int id)
         {
             return await _context.Clientes

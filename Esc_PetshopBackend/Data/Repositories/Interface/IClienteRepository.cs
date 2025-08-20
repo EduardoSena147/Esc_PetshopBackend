@@ -5,6 +5,7 @@ namespace Esc_PetshopBackend.Data.Repositories.Interface
 {
     public interface IClienteRepository
     {
+        Task<IEnumerable<Cliente>> GetAllAsync();
         Task<Cliente> GetByIdAsync(int id);
         Task<Cliente> GetByUsuarioIdAsync(int usuarioId);
         Task AddAsync(Cliente cliente);

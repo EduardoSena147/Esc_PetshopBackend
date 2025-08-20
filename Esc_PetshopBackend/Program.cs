@@ -37,6 +37,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<ITipoAnimalService, TipoAnimalService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
