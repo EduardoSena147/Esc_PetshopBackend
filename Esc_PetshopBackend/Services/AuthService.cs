@@ -14,13 +14,15 @@ namespace Esc_PetshopBackend.Services
     {
         private readonly JwtSettings _jwtSettings;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IClienteRepository _clienteRepository;
         private readonly PasswordHasher<Usuario> _passwordHasher;
 
-        public AuthService(JwtSettings jwtSettings, IUsuarioRepository usuarioRepository)
+        public AuthService(JwtSettings jwtSettings, IUsuarioRepository usuarioRepository, IClienteRepository clienteRepository)
         {
             _jwtSettings = jwtSettings;
             _usuarioRepository = usuarioRepository;
             _passwordHasher = new PasswordHasher<Usuario>();
+            _clienteRepository = clienteRepository;
         }
 
         public async Task<string?> Authenticate(string email, string senha)
@@ -74,14 +76,48 @@ namespace Esc_PetshopBackend.Services
                 Nome = usuarioDto.Nome?.Trim(),
                 Email = usuarioDto.Email,
                 DataCriacao = DateTime.UtcNow,
-                Ativo = true
+                Ativo = true,
+                CargoId = usuarioDto.CargoId
             };
 
             // Geração do hash da senha
             usuario.Senha = _passwordHasher.HashPassword(usuario, usuarioDto.Senha);
 
             await _usuarioRepository.AddAsync(usuario);
+
+            // SE FOR CLIENTE (cargo_id = 4), CRIA REGISTRO NA TABELA clientes
+            if (usuarioDto.CargoId == 4)
+            {
+                await CriarClienteAutomaticamente(usuario.Id);
+            }
+
             return true;
+        }
+
+        private async Task CriarClienteAutomaticamente(int usuarioId)
+        {
+            try
+            {
+                var cliente = new Cliente
+                {
+                    UsuarioId = usuarioId,
+                    CadastroPendente = true,
+                    Cep = null,
+                    Endereco = null,
+                    Numero = null,
+                    Bairro = null,
+                    Cidade = null,
+                    Estado = null
+                };
+
+                await _clienteRepository.AddAsync(cliente);
+                Console.WriteLine($"Cliente criado automaticamente para usuário ID: {usuarioId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao criar cliente automático: {ex.Message}");
+                // Não lança exceção para não quebrar o registro do usuário
+            }
         }
 
         public async Task<bool> ChangePassword(int usuarioId, string currentPassword, string newPassword)

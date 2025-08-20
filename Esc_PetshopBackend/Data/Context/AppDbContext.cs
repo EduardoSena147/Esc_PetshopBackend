@@ -11,6 +11,8 @@ namespace Esc_PetshopBackend.Data.Context
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
+        public DbSet<TipoAnimal> TiposAnimais { get; set; }
+        public DbSet<Cliente> Clientes{ get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -97,6 +99,100 @@ namespace Esc_PetshopBackend.Data.Context
 
                 // Comentários para documentação (opcional)
                 entity.HasComment("Tabela de cargos do sistema");
+            });
+
+            modelBuilder.Entity<TipoAnimal>(entity =>
+            {
+                entity.ToTable("tipo_animais");
+
+                entity.HasKey(t => t.Id)
+                      .HasName("tipo_animais_pkey");
+
+                entity.Property(t => t.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(t => t.Descricao)
+                      .HasColumnName("descricao")
+                      .HasColumnType("varchar(50)")
+                      .HasMaxLength(50)
+                      .IsRequired();
+
+                // Índice único na descrição
+                entity.HasIndex(t => t.Descricao)
+                      .IsUnique()
+                      .HasDatabaseName("uk_tipo_animais_descricao");
+            });
+
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.ToTable("clientes");
+
+                entity.HasKey(c => c.Id);
+
+                entity.Property(c => c.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(c => c.UsuarioId)
+                      .HasColumnName("usuario_id")
+                      .IsRequired();
+
+                entity.Property(c => c.Cpf)
+                      .HasColumnName("cpf")
+                      .HasMaxLength(14);
+
+                entity.Property(c => c.Telefone)
+                      .HasColumnName("telefone")
+                      .HasMaxLength(15);
+
+                entity.Property(c => c.DataNascimento)
+                      .HasColumnName("data_nascimento")
+                      .HasColumnType("date");
+
+                entity.Property(c => c.Cep)
+                      .HasColumnName("cep")
+                      .HasMaxLength(9);
+
+                entity.Property(c => c.Endereco)
+                      .HasColumnName("endereco")
+                      .HasMaxLength(200);
+
+                entity.Property(c => c.Numero)
+                      .HasColumnName("numero")
+                      .HasMaxLength(10);
+
+                entity.Property(c => c.Complemento)
+                      .HasColumnName("complemento")
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.Bairro)
+                      .HasColumnName("bairro")
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.Cidade)
+                      .HasColumnName("cidade")
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.Estado)
+                      .HasColumnName("estado")
+                      .HasMaxLength(2);
+
+                entity.Property(c => c.CadastroPendente)
+                      .HasColumnName("cadastro_pendente")
+                      .HasDefaultValue(true);
+
+                // Relacionamento com Usuario
+                entity.HasOne(c => c.Usuario)
+                      .WithMany()
+                      .HasForeignKey(c => c.UsuarioId)
+                      .HasConstraintName("fk_clientes_usuarios")
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                // Índices
+                entity.HasIndex(c => c.UsuarioId).IsUnique();
+                entity.HasIndex(c => c.Cpf).IsUnique();
+                entity.HasIndex(c => c.Telefone);
             });
         }
     }

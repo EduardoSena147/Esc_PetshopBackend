@@ -6,7 +6,7 @@ namespace Esc_PetshopBackend.Data.Repositories.Interface
     {
         Task<IEnumerable<Cargo>> GetAllAsync();
         Task<Cargo> GetByIdAsync(int id);
-        Task<Cargo> GetByDescricaoAsync(string descricao); // Nome correto com "Async"
+        Task<Cargo> GetByDescricaoAsync(string descricao);
         Task AddAsync(Cargo cargo);
         Task UpdateAsync(Cargo cargo);
         Task DeleteAsync(int id);
