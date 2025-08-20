@@ -29,11 +29,13 @@ builder.Services.AddSingleton<DbConnectionFactory>();
 // Configure Repositories
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
+builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
 
 // Configure Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
+builder.Services.AddScoped<ITipoAnimalService, TipoAnimalService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

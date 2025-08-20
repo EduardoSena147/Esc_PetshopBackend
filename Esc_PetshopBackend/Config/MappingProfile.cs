@@ -20,6 +20,9 @@ namespace Esc_PetshopBackend
             CreateMap<Cargo, CargoDto>();
             CreateMap<CargoCreateDto, Cargo>();
             CreateMap<CargoUpdateDto, Cargo>();
+            CreateMap<TipoAnimal, TipoAnimalDto>();
+            CreateMap<TipoAnimalCreateDto, TipoAnimal>();
+            CreateMap<TipoAnimalUpdateDto, TipoAnimal>();
         }
     }
 }

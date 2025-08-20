@@ -11,6 +11,7 @@ namespace Esc_PetshopBackend.Data.Context
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
+        public DbSet<TipoAnimal> TiposAnimais { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -97,6 +98,29 @@ namespace Esc_PetshopBackend.Data.Context
 
                 // Comentários para documentação (opcional)
                 entity.HasComment("Tabela de cargos do sistema");
+            });
+
+            modelBuilder.Entity<TipoAnimal>(entity =>
+            {
+                entity.ToTable("tipo_animais");
+
+                entity.HasKey(t => t.Id)
+                      .HasName("tipo_animais_pkey");
+
+                entity.Property(t => t.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(t => t.Descricao)
+                      .HasColumnName("descricao")
+                      .HasColumnType("varchar(50)")
+                      .HasMaxLength(50)
+                      .IsRequired();
+
+                // Índice único na descrição
+                entity.HasIndex(t => t.Descricao)
+                      .IsUnique()
+                      .HasDatabaseName("uk_tipo_animais_descricao");
             });
         }
     }
