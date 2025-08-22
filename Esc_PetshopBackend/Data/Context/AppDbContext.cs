@@ -13,6 +13,7 @@ namespace Esc_PetshopBackend.Data.Context
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<TipoAnimal> TiposAnimais { get; set; }
         public DbSet<Cliente> Clientes{ get; set; } 
+        public DbSet<Pet> Pets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -193,6 +194,91 @@ namespace Esc_PetshopBackend.Data.Context
                 entity.HasIndex(c => c.UsuarioId).IsUnique();
                 entity.HasIndex(c => c.Cpf).IsUnique();
                 entity.HasIndex(c => c.Telefone);
+            });
+
+            modelBuilder.Entity<Pet>(entity =>
+            {
+                entity.ToTable("pets");
+
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Id)
+                      .HasColumnName("id");
+
+                entity.Property(p => p.ClienteId)
+                      .HasColumnName("cliente_id")
+                      .IsRequired();
+
+                entity.Property(p => p.TipoAnimalId)
+                      .HasColumnName("tipo_animal_id")
+                      .IsRequired();
+
+                entity.Property(p => p.Nome)
+                      .HasColumnName("nome")
+                      .HasMaxLength(100)
+                      .IsRequired();
+
+                entity.Property(p => p.Raca)
+                      .HasColumnName("raca")
+                      .HasMaxLength(100);
+
+                entity.Property(p => p.Cor)
+                      .HasColumnName("cor")
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Sexo)
+                      .HasColumnName("sexo")
+                      .HasMaxLength(1);
+
+                entity.Property(p => p.DataNascimento)
+                      .HasColumnName("data_nascimento")
+                      .HasColumnType("date");
+
+                entity.Property(p => p.Peso)
+                      .HasColumnName("peso")
+                      .HasColumnType("decimal(5,2)");
+
+                entity.Property(p => p.Porte)
+                      .HasColumnName("porte")
+                      .HasMaxLength(20);
+
+                entity.Property(p => p.Castrado)
+                      .HasColumnName("castrado")
+                      .HasDefaultValue(false);
+
+                entity.Property(p => p.Observacoes)
+                      .HasColumnName("observacoes");
+
+                entity.Property(p => p.DataCadastro)
+                      .HasColumnName("data_cadastro")
+                      .HasColumnType("timestamp with time zone")
+                      .HasDefaultValueSql("NOW() AT TIME ZONE 'UTC'")
+                      .HasConversion(
+                          v => v.ToUniversalTime(), 
+                          v => DateTime.SpecifyKind(v, DateTimeKind.Utc) 
+                      );
+
+                entity.Property(p => p.Ativo)
+                      .HasColumnName("ativo")
+                      .HasDefaultValue(true);
+
+                // Relacionamentos
+                entity.HasOne(p => p.Cliente)
+                      .WithMany()
+                      .HasForeignKey(p => p.ClienteId)
+                      .HasConstraintName("fk_pet_cliente")
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(p => p.TipoAnimal)
+                      .WithMany()
+                      .HasForeignKey(p => p.TipoAnimalId)
+                      .HasConstraintName("fk_pet_tipo_animal")
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Índices
+                entity.HasIndex(p => p.ClienteId);
+                entity.HasIndex(p => p.TipoAnimalId);
+                entity.HasIndex(p => p.Nome);
             });
         }
     }

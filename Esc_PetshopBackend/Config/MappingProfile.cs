@@ -17,16 +17,34 @@ namespace Esc_PetshopBackend
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null)); // Atualiza apenas campos não nulos
 
             CreateMap<Usuario, UsuarioDto>();
+
             CreateMap<Cargo, CargoDto>();
             CreateMap<CargoCreateDto, Cargo>();
             CreateMap<CargoUpdateDto, Cargo>();
+
             CreateMap<TipoAnimal, TipoAnimalDto>();
             CreateMap<TipoAnimalCreateDto, TipoAnimal>();
             CreateMap<TipoAnimalUpdateDto, TipoAnimal>();
+
             CreateMap<Cliente, ClienteDto>();
             CreateMap<ClienteCreateDto, Cliente>();
             CreateMap<ClienteUpdateDto, Cliente>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null)); // Atualiza apenas campos não nulos
+
+            CreateMap<Pet, PetDto>()
+                .ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src =>
+                    src.Cliente != null && src.Cliente.Usuario != null
+                        ? src.Cliente.Usuario.Nome
+                        : "Cliente não encontrado"))
+                .ForMember(dest => dest.TipoAnimalDescricao, opt => opt.MapFrom(src =>
+                    src.TipoAnimal != null
+                        ? src.TipoAnimal.Descricao
+                        : "Tipo não especificado"));
+
+            CreateMap<PetCreateDto, Pet>()
+                .ForMember(dest => dest.DataCadastro, opt => opt.Ignore()) // Será definido pelo banco
+                .ForMember(dest => dest.Ativo, opt => opt.Ignore()); // Usará o valor padrão;
+            CreateMap<PetUpdateDto, Pet>();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Esc_PetshopBackend.Data.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Descricao { get; set; }
+        public string? Descricao { get; set; }
     }
 }
