@@ -45,6 +45,10 @@ namespace Esc_PetshopBackend
                 .ForMember(dest => dest.DataCadastro, opt => opt.Ignore()) // Será definido pelo banco
                 .ForMember(dest => dest.Ativo, opt => opt.Ignore()); // Usará o valor padrão;
             CreateMap<PetUpdateDto, Pet>();
+
+            CreateMap<TipoAgendamento, TipoAgendamentoDto>();
+            CreateMap<TipoAgendamentoCreateDto, TipoAgendamento>();
+            CreateMap<TipoAgendamentoUpdateDto, TipoAgendamento>();
         }
     }
 }

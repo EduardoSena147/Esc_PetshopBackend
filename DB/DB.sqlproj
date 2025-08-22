@@ -61,5 +61,6 @@
   <ItemGroup>
     <None Include="TABLES\clientes.pgsql" />
     <None Include="TABLES\pets.pgsql" />
+    <None Include="TABLES\tipo_agendamento.pgsql" />
   </ItemGroup>
 </Project>

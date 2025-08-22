@@ -11,16 +11,19 @@ namespace Esc_PetshopBackend.Controllers
     public class TipoAnimalController : ControllerBase
     {
         private readonly ITipoAnimalService _tipoAnimalService;
+
         public TipoAnimalController(ITipoAnimalService tipoAnimalService)
         {
             _tipoAnimalService = tipoAnimalService;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TipoAnimalDto>>> GetAll()
         {
             var tiposAnimais = await _tipoAnimalService.GetAllAsync();
             return Ok(tiposAnimais);
         }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TipoAnimalDto>> GetById(int id)
         {

@@ -32,6 +32,7 @@ builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<ITipoAgendamentoRepository, TipoAgendamentoRepository>();
 
 // Configure Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
@@ -40,6 +41,7 @@ builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<ITipoAnimalService, TipoAnimalService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<ITipoAgendamentoService, TipoAgendamentoService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

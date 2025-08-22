@@ -14,6 +14,7 @@ namespace Esc_PetshopBackend.Data.Context
         public DbSet<TipoAnimal> TiposAnimais { get; set; }
         public DbSet<Cliente> Clientes{ get; set; } 
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<TipoAgendamento> TiposAgendamentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -279,6 +280,23 @@ namespace Esc_PetshopBackend.Data.Context
                 entity.HasIndex(p => p.ClienteId);
                 entity.HasIndex(p => p.TipoAnimalId);
                 entity.HasIndex(p => p.Nome);
+            });
+
+            modelBuilder.Entity<TipoAgendamento>(entity =>
+            {
+                entity.ToTable("tipo_agendamento");
+                entity.HasKey(t => t.Id);
+                entity.Property(t => t.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+                entity.Property(t => t.Descricao)
+                      .HasColumnName("descricao")
+                      .HasMaxLength(100)
+                      .IsRequired();
+                // Índice único na descrição
+                entity.HasIndex(t => t.Descricao)
+                      .IsUnique()
+                      .HasDatabaseName("uk_tipo_agendamentos_descricao");
             });
         }
     }
