@@ -31,6 +31,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
 
 // Configure Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<ITipoAnimalService, TipoAnimalService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IPetService, PetService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

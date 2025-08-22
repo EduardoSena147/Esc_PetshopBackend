@@ -60,5 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TABLES\clientes.pgsql" />
+    <None Include="TABLES\pets.pgsql" />
   </ItemGroup>
 </Project>
