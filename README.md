@@ -65,7 +65,6 @@ Backend completo para um sistema de agendamento de serviços em petshop, desenvo
 ## 📈 Próximas Funcionalidades
 - [ ] Sistema de notificações por email
 - [ ] Integração com gateway de pagamento
-- [ ] API para mobile apps
 - [ ] Dashboard administrativo
 - [ ] Relatórios e analytics
 - [ ] Sistema de fidelidade
